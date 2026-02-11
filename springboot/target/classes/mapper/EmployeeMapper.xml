@@ -8,4 +8,13 @@
         <select id="selectAll" resultType="com.example.springboot.entity.Employee">
             SELECT * FROM employee
         </select>
+        <insert id="insert" parameterType="com.example.springboot.entity.Employee">
+            insert into `employee` (name, sex, no, age, description, department_id)
+            values (#{name}, #{sex}, #{no}, #{age}, #{description}, #{departmentId})
+        </insert>
+        <update id="updateById" parameterType="com.example.springboot.entity.Employee">
+            update `employee` set name = #{name}, sex = #{sex}, no = #{no},
+            age = #{age}, description = #{description}, department_id = #{departmentId}
+            where id = #{id}
+        </update>
     </mapper>

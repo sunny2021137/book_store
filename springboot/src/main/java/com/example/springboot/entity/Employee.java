@@ -9,6 +9,19 @@ public class Employee {
     private String description;
     private Integer departmentId;
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", no='" + no + '\'' +
+                ", age=" + age +
+                ", description='" + description + '\'' +
+                ", departmentId=" + departmentId +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
