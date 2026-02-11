@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <!--對應mapper名-->
+    <mapper namespace="com.example.springboot.mapper.EmployeeMapper">
+        <!--id和mappaer方法名字對應，resultType和方法返回類型對應-->
+        <select id="selectAll" resultType="com.example.springboot.entity.Employee">
+            SELECT * FROM employee
+        </select>
+    </mapper>
