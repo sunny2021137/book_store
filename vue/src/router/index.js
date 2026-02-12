@@ -9,6 +9,7 @@ const router = createRouter({
       {path: 'test', meta:{title: '測試頁面'}, component: () => import('../views/Test.vue')},
       {path: 'data', meta:{title: '數據展示頁面'}, component: () => import('../views/Data.vue')},
       {path: 'employee', meta:{title: '員工信息頁面'}, component: () => import('../views/Employee.vue')},
+      {path: 'admin', meta:{title: '管理員信息頁面'}, component: () => import('../views/Admin.vue')},
     ]},
     {path: '/login',  meta:{title: '登錄頁面'}, component: () => import('../views/Login.vue')},
     {path: '/register', meta:{title: '註冊頁面'}, component: () => import('../views/Register.vue')},
