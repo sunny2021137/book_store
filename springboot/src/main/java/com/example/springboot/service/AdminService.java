@@ -1,6 +1,7 @@
 package com.example.springboot.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.example.springboot.entity.Account;
 import com.example.springboot.entity.Admin;
 import com.example.springboot.exception.CustomException;
 import com.example.springboot.mapper.AdminMapper;
@@ -71,7 +72,7 @@ public class AdminService {
         }
     }
 
-    public Admin login(Admin admin) {
+    public Admin login(Account admin) {
         String username = admin.getUsername();
         Admin dbAdmin = adminMapper.selectByUsername(username);
         if(dbAdmin == null) {

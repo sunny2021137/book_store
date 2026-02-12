@@ -17,7 +17,7 @@
             values (#{username}, #{password}, #{role}, #{name})
         </insert>
         <update id="updateById" parameterType="com.example.springboot.entity.Admin">
-            update `admin` set username = #{username}, password = #{password}, role = #{role}, name = #{name},
+            update `admin` set username = #{username}, password = #{password}, role = #{role}, name = #{name}
             where id = #{id}
         </update>
     </mapper>

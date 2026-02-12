@@ -1,8 +1,10 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.common.Result;
+import com.example.springboot.entity.Account;
 import com.example.springboot.entity.Employee;
 import com.example.springboot.exception.CustomException;
+import com.example.springboot.service.AdminService;
 import com.example.springboot.service.EmployeeService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +17,18 @@ public class WebController {
 
     @Resource
     private EmployeeService employeeService;
+    @Resource
+    private AdminService adminService;
 
     @PostMapping("/login")
-    public Result login(@RequestBody Employee employee) {
-        Employee dbEmployee = employeeService.login(employee);
-        return Result.success(dbEmployee);
+    public Result login(@RequestBody Account account) {
+        Account dbAccount = null;
+        if("ADMIN".equals(account.getRole())) {
+            dbAccount = adminService.login(account);
+        } else if ("EMP".equals(account.getRole())) {
+            dbAccount = employeeService.login(account);
+        }
+        return Result.success(dbAccount);
     }
 
     @PostMapping("/register")

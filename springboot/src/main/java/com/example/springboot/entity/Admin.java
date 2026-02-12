@@ -1,6 +1,6 @@
 package com.example.springboot.entity;
 
-public class Admin {
+public class Admin extends Account {
     private Integer id;
     private String username;
     private String password;
