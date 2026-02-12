@@ -22,7 +22,16 @@ import { reactive } from "vue";
 import { Search } from '@element-plus/icons-vue'
 import { RouterLink, RouterView } from "vue-router";
 import router from '@/router/index.js'
+import request from "@/utils/request.js"
+
 const data = reactive({
   input: null,
+  employeeList: []
+
 });
+
+// request.get("/employee/selectAll").then( res => {
+//     console.log(res);
+//     data.employeeList = res.data;
+// })
 </script>

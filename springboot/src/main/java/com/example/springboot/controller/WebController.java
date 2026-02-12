@@ -1,16 +1,38 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.common.Result;
+import com.example.springboot.entity.Employee;
 import com.example.springboot.exception.CustomException;
+import com.example.springboot.service.EmployeeService;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WebController {
+
+    @Resource
+    private EmployeeService employeeService;
+
+    @PostMapping("/login")
+    public Result login(@RequestBody Employee employee) {
+        Employee dbEmployee = employeeService.login(employee);
+        return Result.success(dbEmployee);
+    }
+
+    @PostMapping("/register")
+    public Result register(@RequestBody Employee employee) {
+        employeeService.register(employee);
+        return Result.success();
+    }
+
     @GetMapping("/hello")
     public Result hello() {
         return Result.success("hello");
     }
+
 
     @GetMapping("/count")
     public Result count() {

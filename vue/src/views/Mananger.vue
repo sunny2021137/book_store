@@ -8,7 +8,7 @@
         <div style="flex:1"></div>
         <div style="width: fit-content; display: flex; align-items: center; padding-right: 20px">
             <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="avatar" style="width: 32px; height: 32px;">
-            <span style="color: #fff; margin-left: 10px;">管理員</span>
+            <span style="color: #fff; margin-left: 10px;">{{data.user.name}}</span>
         </div>
     </div>
     <!-- header end -->
@@ -26,10 +26,10 @@
                         <span>用戶管理</span>
                     </template>
                     <el-menu-item>管理員信息</el-menu-item>
-                    <el-menu-item>用戶信息</el-menu-item>
+                    <el-menu-item index="/manager/employee">員工信息</el-menu-item>
                 </el-sub-menu>
-                <el-menu-item index="/manager/profile"><el-icon><UserFilled /></el-icon>個人信息</el-menu-item>
-                <el-menu-item index="/manager/logout"><el-icon><SwitchButton /></el-icon>退出登錄</el-menu-item>
+                <el-menu-item index="/manager/person"><el-icon><UserFilled /></el-icon>個人信息</el-menu-item>
+                <el-menu-item index="/login"><el-icon><SwitchButton /></el-icon>退出登錄</el-menu-item>
             </el-menu>
         </div>
         <!-- sidebar end -->
@@ -52,5 +52,12 @@
 </style>
 
 <script setup>
-import router from '@/router';
+import { reactive } from "vue";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const data = reactive({
+    user: JSON.parse(localStorage.getItem("xm-pro-user"), null),
+});
 </script>

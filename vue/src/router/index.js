@@ -3,13 +3,16 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {path: '/', redirect: '/manager/home'},
+    {path: '/', redirect: '/login'},
     {path: '/manager', component: () => import('../views/Mananger.vue'), children: [
       {path: 'home', meta:{title: '主頁面'}, component: () => import('../views/Home.vue')},
       {path: 'test', meta:{title: '測試頁面'}, component: () => import('../views/Test.vue')},
       {path: 'data', meta:{title: '數據展示頁面'}, component: () => import('../views/Data.vue')},
+      {path: 'employee', meta:{title: '員工信息頁面'}, component: () => import('../views/Employee.vue')},
     ]},
-    {path: '/404', name: 'NotFound', component: () => import('../views/404.vue')},
+    {path: '/login',  meta:{title: '登錄頁面'}, component: () => import('../views/Login.vue')},
+    {path: '/register', meta:{title: '註冊頁面'}, component: () => import('../views/Register.vue')},
+    {path: '/404', meta:{title: '頁面未找到'}, component: () => import('../views/404.vue')},
     {path: '/:pathMatch(.*)', redirect: '/404' }
     
   ],
