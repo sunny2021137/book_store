@@ -29,6 +29,7 @@
                     <el-menu-item index="/manager/employee">員工信息</el-menu-item>
                 </el-sub-menu>
                 <el-menu-item index="/manager/person"><el-icon><UserFilled /></el-icon>個人信息</el-menu-item>
+                <el-menu-item index="/manager/password"><el-icon><Lock /></el-icon>修改密碼</el-menu-item>
                 <el-menu-item @click="logout"><el-icon><SwitchButton /></el-icon>退出登錄</el-menu-item>
             </el-menu>
         </div>
@@ -36,7 +37,7 @@
     
         <!-- content start -->
         <div style="flex: 1; padding: 20px; background-color: #f0f7fd;">
-            <RouterView />
+            <RouterView @updateUser="updateUser"/>
         </div>
         <!-- content end -->
     </div>
@@ -66,6 +67,11 @@ const logout = () => {
     localStorage.removeItem("xm-pro-user");
     // 跳轉到登錄頁面
     location.href = "/login";
+}
+
+const updateUser = () => {
+    // 取最新的用戶信息
+    data.user = JSON.parse(localStorage.getItem("xm-pro-user"), null)
 }
 
 </script>

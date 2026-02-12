@@ -21,4 +21,7 @@ public interface EmployeeMapper {
 
     @Select("select * from `employee` where username = #{username}")
     Employee selectByUsername(String username);
+
+    @Select("select * from `employee` where `no` = #{no}")
+    Employee selectByNo(String no);
 }

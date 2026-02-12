@@ -7,10 +7,7 @@ import com.example.springboot.exception.CustomException;
 import com.example.springboot.service.AdminService;
 import com.example.springboot.service.EmployeeService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class WebController {
@@ -27,6 +24,8 @@ public class WebController {
             dbAccount = adminService.login(account);
         } else if ("EMP".equals(account.getRole())) {
             dbAccount = employeeService.login(account);
+        } else {
+            throw new CustomException("500", "非法職位");
         }
         return Result.success(dbAccount);
     }
@@ -34,6 +33,18 @@ public class WebController {
     @PostMapping("/register")
     public Result register(@RequestBody Employee employee) {
         employeeService.register(employee);
+        return Result.success();
+    }
+
+    @PutMapping("/updatePassword")
+    public Result updatePassword(@RequestBody Account account) {
+        if("ADMIN".equals(account.getRole())) {
+            adminService.updatePassword(account);
+        } else if ("EMP".equals(account.getRole())) {
+            employeeService.updatePassword(account);
+        } else {
+            throw new CustomException("500", "非法職位");
+        }
         return Result.success();
     }
 

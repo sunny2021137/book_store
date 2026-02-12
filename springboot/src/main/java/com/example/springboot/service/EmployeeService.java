@@ -2,6 +2,7 @@ package com.example.springboot.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.springboot.entity.Account;
+import com.example.springboot.entity.Admin;
 import com.example.springboot.entity.Employee;
 import com.example.springboot.exception.CustomException;
 import com.example.springboot.mapper.EmployeeMapper;
@@ -39,10 +40,13 @@ public class EmployeeService {
 
     public void add(Employee employee) {
         // 檢查帳號是否註冊過
-        String username = employee.getUsername();
-        Employee dbEmployee = employeeMapper.selectByUsername(username);
+        Employee dbEmployee = employeeMapper.selectByUsername(employee.getUsername());
         if(dbEmployee != null) {
             throw new CustomException("500", "帳號已存在，請更換別的帳號");
+        }
+        Employee dbEmployee1 = employeeMapper.selectByNo(employee.getNo());
+        if(dbEmployee1 != null) {
+            throw new CustomException("500", "工號已存在，請確認正確工號");
         }
         // 密碼沒填，預設123
         if(StrUtil.isBlank(employee.getPassword())) {
@@ -87,5 +91,15 @@ public class EmployeeService {
 
     public void register(Employee employee) {
         this.add(employee);
+    }
+
+    public void updatePassword(Account account) {
+        Integer id = account.getId();
+        Employee employee = this.selectById(id);
+        if(!employee.getPassword().equals(account.getPassword())){
+            throw new CustomException("500", "原密碼錯誤");
+        }
+        employee.setPassword(account.getNewPassword());
+        this.update(employee);
     }
 }

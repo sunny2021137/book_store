@@ -7,6 +7,9 @@
                     <el-form-item prop="username">
                         <el-input v-model="data.form.username" autocomplete="off" placeholder="請輸入帳號" prefix-icon="User" />
                     </el-form-item>
+                    <el-form-item prop="no">
+                        <el-input v-model="data.form.no" autocomplete="off" placeholder="請輸入工號" prefix-icon="User" />
+                    </el-form-item>
                     <el-form-item prop="password">
                         <el-input show-password type="password" v-model="data.form.password" autocomplete="off" placeholder="請輸入密碼" prefix-icon="Lock" />
                     </el-form-item>
@@ -45,12 +48,16 @@ const validatePass2 = (rule, value, callback) => {
 const data = reactive({
     form: {
         username: null,
+        no: null,
         password: null,
         confirmPassword: null
     },
     rules: {
         username: [
             { required: true, message: "請輸入帳號", trigger: "blur" }
+        ],
+        no: [
+            { required: true, message: "請輸入工號", trigger: "blur" }
         ],
         password: [
             { required: true, message: "請輸入密碼", trigger: "blur" }

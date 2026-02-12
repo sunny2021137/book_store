@@ -10,6 +10,8 @@ const router = createRouter({
       {path: 'data', meta:{title: '數據展示頁面'}, component: () => import('../views/Data.vue')},
       {path: 'employee', meta:{title: '員工信息頁面'}, component: () => import('../views/Employee.vue')},
       {path: 'admin', meta:{title: '管理員信息頁面'}, component: () => import('../views/Admin.vue')},
+      {path: 'person', meta:{title: '個人信息頁面'}, component: () => import('../views/Person.vue')},
+      {path: 'password', meta:{title: '修改密碼頁面'}, component: () => import('../views/Password.vue')},
     ]},
     {path: '/login',  meta:{title: '登錄頁面'}, component: () => import('../views/Login.vue')},
     {path: '/register', meta:{title: '註冊頁面'}, component: () => import('../views/Register.vue')},
