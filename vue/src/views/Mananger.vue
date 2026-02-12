@@ -29,7 +29,7 @@
                     <el-menu-item index="/manager/employee">員工信息</el-menu-item>
                 </el-sub-menu>
                 <el-menu-item index="/manager/person"><el-icon><UserFilled /></el-icon>個人信息</el-menu-item>
-                <el-menu-item index="/login"><el-icon><SwitchButton /></el-icon>退出登錄</el-menu-item>
+                <el-menu-item @click="logout"><el-icon><SwitchButton /></el-icon>退出登錄</el-menu-item>
             </el-menu>
         </div>
         <!-- sidebar end -->
@@ -60,4 +60,12 @@ const router = useRouter();
 const data = reactive({
     user: JSON.parse(localStorage.getItem("xm-pro-user"), null),
 });
+
+const logout = () => {
+    // 清除本地存儲中的用戶信息
+    localStorage.removeItem("xm-pro-user");
+    // 跳轉到登錄頁面
+    location.href = "/login";
+}
+
 </script>
