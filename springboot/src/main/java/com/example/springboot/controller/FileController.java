@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/files")
@@ -67,4 +71,38 @@ public class FileController {
             throw new RuntimeException(e);
         }
     }
+
+    // 文件上傳
+    @PostMapping("/wang/upload")
+    public Map<String, Object> wangEditorUpload(MultipartFile file) { //文件流的形式接收
+        String originalFileName = file.getOriginalFilename(); //文件自帶的名稱
+
+        // 判斷上傳資料夾是否存在
+        if (!FileUtil.isDirectory(filePath)) {
+            FileUtil.mkdir(filePath);
+        }
+
+        // 給文件名加上時間戳(避免有原名稱重複的檔案)
+        String fileName = System.currentTimeMillis() + "_" + originalFileName;
+        String realPath = filePath + fileName;
+
+        // 將輸入上傳到上傳地址(文件字節數, 上傳路徑)
+        try {
+            FileUtil.writeBytes(file.getBytes(), realPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        String url = "http://localhost:9090/files/download/"+fileName;
+
+        Map<String, Object> resMap = new HashMap<>();
+        Map<String, Object> urlMap = new HashMap<>();
+
+        urlMap.put("url", url);
+        resMap.put("errno", 0);
+        resMap.put("data", urlMap);
+        return resMap;
+    }
+
 }

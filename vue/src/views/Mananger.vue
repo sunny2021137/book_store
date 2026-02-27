@@ -20,14 +20,15 @@
             <el-menu router :default-active="router.currentRoute.value.path" :default-openeds="['1']">
                 <el-menu-item index="/manager/home"> <el-icon><House /></el-icon>系統首頁</el-menu-item>
                 <el-menu-item index="/manager/data"><el-icon><DataAnalysis /></el-icon>數據統計</el-menu-item>
-                <el-menu-item index="/manager/department"><el-icon><DataAnalysis /></el-icon>部門信息</el-menu-item>
+                <el-menu-item index="/manager/article"><el-icon><Document /></el-icon>文章管理</el-menu-item>
+                <el-menu-item index="/manager/department"><el-icon><OfficeBuilding /></el-icon>部門管理</el-menu-item>
                 <el-sub-menu index="1">
                     <template #title>
                         <el-icon><User /></el-icon>
                         <span>用戶管理</span>
                     </template>
-                    <el-menu-item index="/manager/admin">管理員信息</el-menu-item>
-                    <el-menu-item index="/manager/employee">員工信息</el-menu-item>
+                    <el-menu-item index="/manager/admin">管理員管理</el-menu-item>
+                    <el-menu-item index="/manager/employee">員工管理</el-menu-item>
                 </el-sub-menu>
                 <el-menu-item index="/manager/person"><el-icon><UserFilled /></el-icon>個人信息</el-menu-item>
                 <el-menu-item index="/manager/password"><el-icon><Lock /></el-icon>修改密碼</el-menu-item>

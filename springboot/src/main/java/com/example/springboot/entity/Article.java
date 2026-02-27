@@ -4,6 +4,9 @@ public class Article {
     private Integer id;
     private String title;
     private String img;
+    private String description;
+    private String content;
+    private String time;
 
     public String getDescription() {
         return description;
@@ -52,8 +55,4 @@ public class Article {
     public void setTime(String time) {
         this.time = time;
     }
-
-    private String description;
-    private String content;
-    private String time;
 }
