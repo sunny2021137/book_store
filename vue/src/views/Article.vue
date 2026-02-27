@@ -94,7 +94,7 @@
         </template>
     </el-dialog>
     <el-dialog v-model="data.viewVisible" title="文章內容" width="50%" destroy-on-close>
-        <div style="padding: 20px;" v-html="data.content"></div>
+        <div class="editor-content-view" style="padding: 20px;" v-html="data.content"></div>
         <template #footer>
             <div class="dialog-footer">
                 <el-button @click="data.viewVisible = false">取消</el-button>
@@ -112,6 +112,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { Search, Edit, Delete } from "@element-plus/icons-vue";
 import request from "@/utils/request.js";
 import { ElMessage, ElMessageBox } from "element-plus";
+import '@/assets/view.css';
 
 const data = reactive({
     title: null,
