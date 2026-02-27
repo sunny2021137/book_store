@@ -1,51 +1,57 @@
 <template>
-    <div class="card" style="margin-bottom: 5px;">
-        <el-input placeholder="请输入内容" v-model="data.input" :prefix-icon="Search" style="width: 240px;"></el-input>
-        <el-button type="primary" style="margin-left: 10px;">查詢</el-button>
-        <el-button type="success" style="margin-left: 10px;">重置</el-button>
-    </div>
-    <div class="card" style="margin-bottom: 5px;">
-        <el-button type="primary" style="margin-left: 10px;">新增</el-button>
-        <el-button type="warning" style="margin-left: 10px;">批量刪除</el-button>
-        <el-button type="info" style="margin-left: 10px;">導入</el-button>
-        <el-button type="success" style="margin-left: 10px;">導出</el-button>
-    </div>
-    <div class="card">
-        <el-table :data="data.tableData" style="width: 100%" stripe>
-            <el-table-column prop="date" label="日期"></el-table-column>
-            <el-table-column prop="name" label="姓名"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
-        </el-table>
-        <!-- 分頁組件開始 -->
-        <div style="margin-top: 20px; text-align: right;">
-            <el-pagination
-            v-model:current-page="data.pageNum"
-            v-model:page-size="data.pageSize"
-            :page-sizes="[5, 10, 15, 20]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="data.pageTotal"
-            />
-        </div>
-        <!-- 分頁組件結束 -->
-    </div>
-    
+    <div id="bar_card" class="card" style="flex:1; height: 400px;"></div>
+    <div id="line_card"class="card" style="flex:1; height: 400px;"></div>
 </template>
 
 <style scoped></style>
 
 <script setup>
-import { reactive } from "vue";
-import { Search } from "@element-plus/icons-vue";
+import { reactive, onMounted } from "vue";
+import * as echarts from 'echarts';
+import request from "@/utils/request.js";
+
+const barOption = {
+    title: {
+        text: '部門員工人數統計'
+    },
+    legend: {
+        data: ['人數'] // 圖例
+    },
+    tooltip: {},
+    xAxis: {
+        data: [] // x軸data和series的data對應
+    },
+    yAxis: {},
+    series: [
+        {
+            name: '人數',
+            type: 'bar', // 柱状圖
+            data: [],
+            itemStyle: {
+                normal: {
+                    color: function(params) {
+                        let colorList = ['#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B', '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD'];
+                        return colorList[params.dataIndex % colorList.length];
+                    }
+                }
+            }
+        },
+    ]
+}
+
+onMounted(() => {
+    // 基于准备好的dom，初始化echarts实例
+	var barChart = echarts.init(document.getElementById('bar_card'));
+	// 請求後端獲取數據
+    request.get('/barData').then(res => {
+        barOption.xAxis.data = res.data.department;
+        barOption.series[0].data = res.data.count;
+        barChart.setOption(barOption);
+    })
+})
+
 
 const data = reactive({
-    input: "",
-    tableData: [
-        { id:1, date: '2024-06-01', name: '張三', address: '北京市' },
-        { id:2, date: '2024-06-02', name: '李四', address: '上海市' },
-        { id:3, date: '2024-06-03', name: '王五', address: '廣州市' },
-    ],
-    pageNum: 1,
-    pageSize: 10,
-    pageTotal: 40,
 });
+
 </script>

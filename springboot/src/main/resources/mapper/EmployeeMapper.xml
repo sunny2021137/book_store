@@ -6,19 +6,19 @@
     <mapper namespace="com.example.springboot.mapper.EmployeeMapper">
         <!--id和mappaer方法名字對應，resultType和方法返回類型對應-->
         <select id="selectAll" resultType="com.example.springboot.entity.Employee">
-            SELECT * FROM employee
+            SELECT employee.*, department.name as departmentName FROM employee LEFT JOIN department ON employee.department_id = department.id
             <where>
-                <if test="name != null">name like concat('%', #{name}, '%')</if>
+                <if test="name != null">employee.name like concat('%', #{name}, '%')</if>
             </where>
-            order by id desc
+            order by employee.id desc
         </select>
         <insert id="insert" parameterType="com.example.springboot.entity.Employee">
-            insert into `employee` (username, password, role, name, sex, no, age, description, department_id)
-            values (#{username}, #{password}, #{role}, #{name}, #{sex}, #{no}, #{age}, #{description}, #{departmentId})
+            insert into `employee` (username, password, role, name, sex, no, age, description, department_id, avatar)
+            values (#{username}, #{password}, #{role}, #{name}, #{sex}, #{no}, #{age}, #{description}, #{departmentId}, #{avatar})
         </insert>
         <update id="updateById" parameterType="com.example.springboot.entity.Employee">
             update `employee` set username = #{username}, password = #{password}, role = #{role}, name = #{name}, sex = #{sex}, no = #{no},
-            age = #{age}, description = #{description}, department_id = #{departmentId}
+            age = #{age}, description = #{description}, department_id = #{departmentId}, avatar = #{avatar}
             where id = #{id}
         </update>
     </mapper>

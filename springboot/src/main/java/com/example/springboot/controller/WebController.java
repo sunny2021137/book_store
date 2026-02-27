@@ -9,6 +9,9 @@ import com.example.springboot.service.EmployeeService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 @RestController
 public class WebController {
 
@@ -64,5 +67,23 @@ public class WebController {
         throw new CustomException("400", "錯誤，禁止請求");
     }
 
+    @GetMapping("/barData")
+    public Result getBarData(){
+        // 取得部門數據
+        List<Employee> employeeList = employeeService.selectAll(null);
+        Map<String, Object> barMap = new HashMap<>(); //用object因為x軸y軸資料型別不同
+        // x軸：不重複的部門名稱
+        Set<String> departmentNameSet = employeeList.stream().map(Employee::getDepartmentName).collect(Collectors.toSet());
+        barMap.put("department", departmentNameSet);
+        // y軸：部門員工數量
+        List<Long> countList = new ArrayList<>();
+        for(String departmentName: departmentNameSet){
+            long count = employeeList.stream().filter(employee -> employee.getDepartmentName().equals(departmentName)).count();
+            countList.add(count);
+        }
+        barMap.put("count", countList);
+
+        return Result.success(barMap);
+    }
 
 }

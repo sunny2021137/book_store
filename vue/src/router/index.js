@@ -8,6 +8,7 @@ const router = createRouter({
       {path: 'home', meta:{title: '主頁面'}, component: () => import('../views/Home.vue')},
       {path: 'test', meta:{title: '測試頁面'}, component: () => import('../views/Test.vue')},
       {path: 'data', meta:{title: '數據展示頁面'}, component: () => import('../views/Data.vue')},
+      {path: 'department', meta:{title: '部門信息頁面'}, component: () => import('../views/Department.vue')},
       {path: 'employee', meta:{title: '員工信息頁面'}, component: () => import('../views/Employee.vue')},
       {path: 'admin', meta:{title: '管理員信息頁面'}, component: () => import('../views/Admin.vue')},
       {path: 'person', meta:{title: '個人信息頁面'}, component: () => import('../views/Person.vue')},

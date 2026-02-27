@@ -11,14 +11,8 @@
     <div class="card">
         <!-- selection-change: 當選中行發生變化時觸發 -->
         <el-table :data="data.tableData" style="width: 100%" stripe @selection-change="handleSelectionChange">
-            <el-table-column type="selection" />
-            <el-table-column prop="username" label="帳號"></el-table-column>
-            <el-table-column label="頭像">
-                <template #default="scope">
-                    <img :src="scope.row.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="avatar" style="width: 32px; height: 32px; border-radius: 50%;">
-                </template>
-            </el-table-column>
-            <el-table-column prop="name" label="名稱"></el-table-column>
+            <el-table-column type="selection"/>
+            <el-table-column prop="name" label="部門名稱"></el-table-column>
             <el-table-column label="操作" width="120">
                 <template #default="scope">
                     <el-button @click="handleUpdate(scope.row)" type="primary" :icon="Edit" circle></el-button>
@@ -41,21 +35,10 @@
         <!-- 分頁組件結束 -->
     </div>
     <!-- destroy-on-close: 當對話框關閉時，銷毀對話框內的內容 -->
-    <el-dialog v-model="data.formVisible" title="管理員信息" width="500" destroy-on-close>
+    <el-dialog v-model="data.formVisible" title="部門信息" width="500" destroy-on-close>
         <el-form ref="formRef" :rules="data.rules" :model="data.form" style="padding-top: 20px; padding-right: 50px;">
-            <el-form-item label="帳號" prop="username" label-width="80px">
-                <el-input :disabled="data.form.id" v-model="data.form.username" autocomplete="off" placeholder="請輸入帳號" />
-            </el-form-item>
-            <el-form-item label="頭像" label-width="80px">
-                <el-upload
-                    action="http://localhost:9090/files/upload"
-                    list-type="picture"
-                    :on-success="handleAvatarSuccess">
-                    <el-button type="primary">上傳頭像</el-button>
-                </el-upload>
-            </el-form-item>
-            <el-form-item label="名稱" prop="name" label-width="80px">
-                <el-input v-model="data.form.name" autocomplete="off" placeholder="請輸入名稱" />
+            <el-form-item label="部門名稱" prop="name" label-width="80px">
+                <el-input v-model="data.form.name" autocomplete="off" placeholder="請輸入部門名稱" />
             </el-form-item>
         </el-form>
         <template #footer>
@@ -86,11 +69,8 @@ const data = reactive({
     formVisible: false,
     form: {},
     rules: {
-        username: [
-            { required: true, message: "請輸入帳號", trigger: "blur" } // trigger: "blur"表示在輸入框失去焦點時觸發校驗
-        ],
         name: [
-            { required: true, message: "請輸入名稱", trigger: "blur" }
+            { required: true, message: "請輸入部門名稱", trigger: "blur" }
         ],
     },
 
@@ -100,7 +80,7 @@ const data = reactive({
 const formRef = ref();
 
 const load = () => {
-    request.get("/admin/selectPage", {
+    request.get("/department/selectPage", {
         params:{
             name: data.name,
             pageNum: data.pageNum,
@@ -109,6 +89,7 @@ const load = () => {
     }).then(res => {
         data.tableData = res.data.list;
         data.pageTotal = res.data.total;
+
     })
 }
 const reset = () => {
@@ -135,7 +116,7 @@ const save = () => {
 }
 
 const add = () => {
-    request.post("/admin/add", data.form).then(res => {
+    request.post("/department/add", data.form).then(res => {
         if(res.code === "200"){
             ElMessage.success("保存成功");
             load();
@@ -150,7 +131,7 @@ const handleBatchDelete = () => {
         ElMessage.warning("請至少選擇一行");
         return;
     }
-    ElMessageBox.confirm("確定要刪除選中的管理員嗎？", "提示", {
+    ElMessageBox.confirm("確定要刪除選中的部門嗎？", "提示", {
         confirmButtonText: "確定",
         cancelButtonText: "取消",
         type: "warning",
@@ -162,7 +143,7 @@ const handleBatchDelete = () => {
 }
 // 需要用{data: ids}的形式傳參，因為delete請求的參數默認是放在url上的，而我們需要把id放在請求體裡
 const deleteBatch = (ids) => {
-    request.delete("/admin/deleteBatch", { data: ids }).then(res => {
+    request.delete("/department/deleteBatch", { data: ids }).then(res => {
         if(res.code === "200"){
             ElMessage.success("刪除成功");
             load();
@@ -183,7 +164,7 @@ const handleDelete = (id) => {
     });
 }
 const deleteById = (id) => {
-    request.delete("/admin/deleteById/" + id).then(res => {
+    request.delete("/department/deleteById/" + id).then(res => {
         if(res.code === "200"){
             ElMessage.success("刪除成功");
             load();
@@ -199,7 +180,7 @@ const handleUpdate = (row) => {
 }
 
 const update = () => {
-    request.put("/admin/update", data.form).then(res => {
+    request.put("/department/update", data.form).then(res => {
         if(res.code === "200"){
             ElMessage.success("保存成功");
             load();
@@ -214,10 +195,6 @@ const handleSelectionChange = (rows) => { //rows是選中行的數組
     data.ids = rows.map(row => row.id);
 }
 
-const handleAvatarSuccess = (res) => {
-    console.log(res);
-    data.form.avatar = res.data;
-};
 
 load();
 </script>

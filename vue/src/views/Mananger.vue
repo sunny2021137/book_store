@@ -7,7 +7,7 @@
         </div>
         <div style="flex:1"></div>
         <div style="width: fit-content; display: flex; align-items: center; padding-right: 20px">
-            <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="avatar" style="width: 32px; height: 32px;">
+            <img :src="data.user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="avatar" style="width: 32px; height: 32px; border-radius: 50%;">
             <span style="color: #fff; margin-left: 10px;">{{data.user.name}}</span>
         </div>
     </div>
@@ -20,6 +20,7 @@
             <el-menu router :default-active="router.currentRoute.value.path" :default-openeds="['1']">
                 <el-menu-item index="/manager/home"> <el-icon><House /></el-icon>系統首頁</el-menu-item>
                 <el-menu-item index="/manager/data"><el-icon><DataAnalysis /></el-icon>數據統計</el-menu-item>
+                <el-menu-item index="/manager/department"><el-icon><DataAnalysis /></el-icon>部門信息</el-menu-item>
                 <el-sub-menu index="1">
                     <template #title>
                         <el-icon><User /></el-icon>

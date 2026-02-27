@@ -7,14 +7,26 @@
     <div class="card" style="margin-bottom: 5px;">
         <el-button @click="handleAdd" type="primary" style="margin-left: 10px;">新增</el-button>
         <el-button @click="handleBatchDelete" type="warning" style="margin-left: 10px;">批量刪除</el-button>
-        <!-- <el-button type="info" style="margin-left: 10px;">導入</el-button>
-        <el-button type="success" style="margin-left: 10px;">導出</el-button> -->
+        <el-upload
+            action="http://localhost:9090/employee/import"
+            :on-success="importSuccess"
+            :show-file-list="false" 
+            style="margin-left: 10px; display: inline-block;"
+            >
+            <el-button type="info">導入</el-button>
+        </el-upload>
+        <el-button @click="exportData" type="success" style="margin-left: 10px;">導出</el-button>
     </div>
     <div class="card">
         <!-- selection-change: 當選中行發生變化時觸發 -->
         <el-table :data="data.tableData" style="width: 100%" stripe @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" />
+            <el-table-column type="selection"/>
             <el-table-column prop="username" label="帳號"></el-table-column>
+            <el-table-column label="頭像">
+                <template #default="scope">
+                    <img :src="scope.row.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="avatar" style="width: 32px; height: 32px; border-radius: 50%;">
+                </template>
+            </el-table-column>
             <el-table-column prop="name" label="名稱"></el-table-column>
             <el-table-column prop="sex" label="性別"></el-table-column>
             <el-table-column prop="no" label="工號"></el-table-column>
@@ -47,7 +59,20 @@
     <el-dialog v-model="data.formVisible" title="員工信息" width="500" destroy-on-close>
         <el-form ref="formRef" :rules="data.rules" :model="data.form" style="padding-top: 20px; padding-right: 50px;">
             <el-form-item label="帳號" prop="username" label-width="80px">
-                <el-input v-model="data.form.username" autocomplete="off" placeholder="請輸入帳號" />
+                <el-input :disabled="data.form.id" v-model="data.form.username" autocomplete="off" placeholder="請輸入帳號" />
+            </el-form-item>
+            <el-form-item label="部門" prop="departmentId" label-width="80px">
+                <el-select style="width: 100%;" placeholder="請選擇部門" v-model="data.form.departmentId">
+                    <el-option v-for="item in data.departmentList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="頭像" label-width="80px">
+                <el-upload
+                    action="http://localhost:9090/files/upload"
+                    list-type="picture"
+                    :on-success="handleAvatarSuccess">
+                    <el-button type="primary">上傳頭像</el-button>
+                </el-upload>
             </el-form-item>
             <el-form-item label="名稱" prop="name" label-width="80px">
                 <el-input v-model="data.form.name" autocomplete="off" placeholder="請輸入名稱" />
@@ -108,7 +133,14 @@ const data = reactive({
     },
 
     ids: [], // 存放選中行的id
+
+    departmentList: [], // 部門列表
 });
+
+
+request.get("department/selectAll").then(res => {
+    data.departmentList = res.data;
+})
 
 const formRef = ref();
 
@@ -141,6 +173,7 @@ const save = () => {
             data.formVisible = false;
             // 判斷是新增還是修改，根據id是否有值來判斷
             data.form.id ? update() : add();
+            
         }else{
             ElMessage.error("請檢查輸入是否正確");
         }
@@ -227,6 +260,22 @@ const handleSelectionChange = (rows) => { //rows是選中行的數組
     data.ids = rows.map(row => row.id);
 }
 
+const handleAvatarSuccess = (res) => {
+    data.form.avatar = res.data;
+};
+
+const exportData = () => {
+    window.open("http://localhost:9090/employee/export");
+}
+
+const importSuccess = res => {
+    if(res.code==="200"){
+        ElMessage.success("導入成功");
+        load();
+    }else {
+        ElMessage.error(res.message);
+    }
+}
 
 load();
 </script>

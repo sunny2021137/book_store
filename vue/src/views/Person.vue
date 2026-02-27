@@ -1,7 +1,18 @@
 <template>
     <div style="display: flex; justify-content: center;">
         <div class="card" style="width: 50%; padding: 40px 20px;">
-            <el-form ref="formRef" :rules="data.rules" :model="data.form" style="padding-top: 20px; padding-right: 50px;">
+            <el-form ref="formRef" :rules="data.rules" :model="data.form" style="padding-top: 20px; padding: 0 50px; margin-bottom: 20px;">
+                <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 30px;">
+                    <!-- 這裡綁定upload接口，upload接口返回download地址，handleAvatarSuccess()讓form.avator綁定download地址 -->
+                    <el-upload
+                        class="avatar-uploader"
+                        action="http://localhost:9090/files/upload"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess">
+                        <img v-if="data.form.avatar" :src="data.form.avatar" class="avatar" />
+                        <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                    </el-upload>
+                </div>
                 <el-form-item label="帳號" prop="username" label-width="80px">
                     <el-input disabled v-model="data.form.username" autocomplete="off" placeholder="請輸入帳號" />
                 </el-form-item>
@@ -98,4 +109,41 @@ const updateUser = () => {
         });
     }
 }
+
+const handleAvatarSuccess = (res) => {
+    console.log(res);
+    data.form.avatar = res.data;
+};
 </script>
+
+<style scoped>
+.avatar-uploader .avatar {
+    width: 120px;
+    height: 120px;
+    display: block;
+}
+</style>
+
+<style>
+.avatar-uploader .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 50%;
+
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+    border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 120px;
+    height: 120px;
+    text-align: center;
+}
+</style>
