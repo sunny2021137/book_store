@@ -55,4 +55,8 @@ public class ArticleService {
             this.deleteById(id);
         }
     }
+
+    public Integer selectCountByDate(String dateStr) {
+        return articleMapper.selectCountByDate(dateStr);
+    }
 }
