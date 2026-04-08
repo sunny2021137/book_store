@@ -173,16 +173,3 @@ npm run build
 
 - **Java 版本不符**
   - 若本機無 JDK 25，可將 `pom.xml` 的 `java.version` 調整為你實際使用版本（例如 17 或 21），再重新編譯。
-
----
-
-## 後續可優化方向
-
-- 補上資料庫 SQL 腳本（schema + seed）
-- 新增 JWT / 權限攔截器
-- 補齊單元測試與整合測試
-- 增加 Docker Compose 一鍵啟動（MySQL + API + Web）
-
----
-
-如果你希望，我可以再幫你補一版 **英文 README**，或直接產出一份 `docker-compose.yml` 讓專案一鍵啟動。
